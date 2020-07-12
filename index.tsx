@@ -7,7 +7,7 @@ export default new p5((s: p5) => {
     canvas.position(window.innerWidth / 2 - 400, window.innerHeight / 2 - 400);
   };
   s.draw = function draw() {
-    let text = s.createP("hello world").position(250, 100).style("color : red");
-    s.background(50);
+    s.background(200);
+    s.translate(window.innerWidth, window.innerHeight);
   };
 });

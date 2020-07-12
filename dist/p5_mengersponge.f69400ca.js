@@ -101485,8 +101485,8 @@ exports.default = new p5_1.default(function (s) {
   };
 
   s.draw = function draw() {
-    var text = s.createP("hello world").position(250, 100).style("color : red");
-    s.background(50);
+    s.background(200);
+    s.translate(window.innerWidth, window.innerHeight);
   };
 });
 },{"p5":"node_modules/p5/lib/p5.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
