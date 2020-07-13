@@ -101509,19 +101509,21 @@ function (_super) {
   __extends(Box, _super); //@ts-ignore
 
 
-  function Box(x, y, z, r_) {
+  function Box(sketch, x, y, z, r_) {
     var _this = this; //@ts-ignore
 
 
-    _this.pos = _this.createVector(x, y, z); //@ts-ignore
+    _this.sketch = sketch; //@ts-ignore
+
+    _this.pos = sketch.createVector(x, y, z); //@ts-ignore
 
     _this.r = r_;
     return _this;
   }
 
   Box.prototype.show = function () {
-    this.translate(this.pos.x, this.pos.y, this.pos.z);
-    this.box(this.r);
+    this.sketch.translate(this.pos.x, this.pos.y, this.pos.z);
+    this.sketch.box(this.r);
   };
 
   return Box;
@@ -101549,11 +101551,13 @@ var a = 0;
 exports.default = new p5_1.default(function (s) {
   var posistion;
   var box1;
+  var box2;
 
   s.setup = function setup() {
-    var canvas = s.createCanvas(600, 600, "webgl");
+    var canvas = s.createCanvas(800, 800, "webgl");
     posistion = canvas.position(window.innerWidth / 4, window.innerHeight / 4);
-    box1 = new box_1.default(100, 100, 100, 100);
+    box1 = new box_1.default(s, 100, 100, 100, 100);
+    box2 = new box_1.default(s, 50, 50, 50, 50);
   };
 
   s.draw = function draw() {
@@ -101562,7 +101566,9 @@ exports.default = new p5_1.default(function (s) {
     s.noFill();
     s.rotateX(a);
     s.box(200);
-    s.box.apply(s, box1);
+    box1.show();
+    box2.show(); // s.box(...box1);
+
     a += 0.01;
   };
 });
