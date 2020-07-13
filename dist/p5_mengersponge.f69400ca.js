@@ -101462,7 +101462,73 @@ var process = require("process");
     }]
   }, {}, [38])(38);
 });
-},{"buffer":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js","process":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js"}],"index.tsx":[function(require,module,exports) {
+},{"buffer":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js","process":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js"}],"box.ts":[function(require,module,exports) {
+"use strict";
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var p5_1 = __importDefault(require("p5"));
+
+var Box =
+/** @class */
+function (_super) {
+  __extends(Box, _super); //@ts-ignore
+
+
+  function Box(x, y, z, r_) {
+    var _this = this; //@ts-ignore
+
+
+    _this.pos = _this.createVector(x, y, z); //@ts-ignore
+
+    _this.r = r_;
+    return _this;
+  }
+
+  Box.prototype.show = function () {
+    this.translate(this.pos.x, this.pos.y, this.pos.z);
+    this.box(this.r);
+  };
+
+  return Box;
+}(p5_1.default);
+
+exports.default = Box;
+},{"p5":"node_modules/p5/lib/p5.js"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -101477,24 +101543,30 @@ Object.defineProperty(exports, "__esModule", {
 
 var p5_1 = __importDefault(require("p5"));
 
+var box_1 = __importDefault(require("./box"));
+
 var a = 0;
 exports.default = new p5_1.default(function (s) {
+  var posistion;
+  var box1;
+
   s.setup = function setup() {
-    var canvas = s.createCanvas(800, 800, "webgl");
-    canvas.position();
-    canvas.position(window.innerWidth / 2 - 400, window.innerHeight / 2 - 400);
+    var canvas = s.createCanvas(600, 600, "webgl");
+    posistion = canvas.position(window.innerWidth / 4, window.innerHeight / 4);
+    box1 = new box_1.default(100, 100, 100, 100);
   };
 
   s.draw = function draw() {
     s.background(200);
     s.stroke(100);
     s.noFill();
-    s.rotate(a);
+    s.rotateX(a);
     s.box(200);
+    s.box.apply(s, box1);
     a += 0.01;
   };
 });
-},{"p5":"node_modules/p5/lib/p5.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"p5":"node_modules/p5/lib/p5.js","./box":"box.ts"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
