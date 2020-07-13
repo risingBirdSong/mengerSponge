@@ -101477,16 +101477,21 @@ Object.defineProperty(exports, "__esModule", {
 
 var p5_1 = __importDefault(require("p5"));
 
+var a = 0;
 exports.default = new p5_1.default(function (s) {
   s.setup = function setup() {
-    var canvas = s.createCanvas(800, 800);
+    var canvas = s.createCanvas(800, 800, "webgl");
     canvas.position();
     canvas.position(window.innerWidth / 2 - 400, window.innerHeight / 2 - 400);
   };
 
   s.draw = function draw() {
     s.background(200);
-    s.translate(window.innerWidth, window.innerHeight);
+    s.stroke(100);
+    s.noFill();
+    s.rotate(a);
+    s.box(200);
+    a += 0.01;
   };
 });
 },{"p5":"node_modules/p5/lib/p5.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -101517,7 +101522,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57330" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57886" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
