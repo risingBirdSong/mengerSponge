@@ -1,7 +1,7 @@
 import p5 from "p5";
 
-class Box extends p5 {
-  public sketch: p5;
+class Box {
+  private sketch: p5;
   public pos: p5.Vector;
   public r: number;
   //@ts-ignore

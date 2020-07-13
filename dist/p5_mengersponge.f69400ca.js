@@ -101465,60 +101465,21 @@ var process = require("process");
 },{"buffer":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js","process":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js"}],"box.ts":[function(require,module,exports) {
 "use strict";
 
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var p5_1 = __importDefault(require("p5"));
-
 var Box =
 /** @class */
-function (_super) {
-  __extends(Box, _super); //@ts-ignore
-
-
+function () {
+  //@ts-ignore
   function Box(sketch, x, y, z, r_) {
-    var _this = this; //@ts-ignore
+    //@ts-ignore
+    this.sketch = sketch; //@ts-ignore
 
+    this.pos = sketch.createVector(x, y, z); //@ts-ignore
 
-    _this.sketch = sketch; //@ts-ignore
-
-    _this.pos = sketch.createVector(x, y, z); //@ts-ignore
-
-    _this.r = r_;
-    return _this;
+    this.r = r_;
   }
 
   Box.prototype.show = function () {
@@ -101527,10 +101488,10 @@ function (_super) {
   };
 
   return Box;
-}(p5_1.default);
+}();
 
 exports.default = Box;
-},{"p5":"node_modules/p5/lib/p5.js"}],"index.tsx":[function(require,module,exports) {
+},{}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -101550,14 +101511,23 @@ var box_1 = __importDefault(require("./box"));
 var a = 0;
 exports.default = new p5_1.default(function (s) {
   var posistion;
-  var box1;
-  var box2;
+  var boxes = []; // boxes[0]
+
+  var mainBoxSize = 300;
 
   s.setup = function setup() {
     var canvas = s.createCanvas(800, 800, "webgl");
     posistion = canvas.position(window.innerWidth / 4, window.innerHeight / 4);
-    box1 = new box_1.default(s, 100, 100, 100, 100);
-    box2 = new box_1.default(s, 50, 50, 50, 50);
+    generate();
+  };
+
+  var generate = function generate() {
+    var newX = 0;
+
+    for (var a_1 = 0; a_1 < 3; a_1++) {
+      boxes.push(new box_1.default(s, a_1 * 50, 100, 100, 100));
+      console.log("a", a_1);
+    }
   };
 
   s.draw = function draw() {
@@ -101565,9 +101535,10 @@ exports.default = new p5_1.default(function (s) {
     s.stroke(100);
     s.noFill();
     s.rotateX(a);
-    s.box(200);
-    box1.show();
-    box2.show(); // s.box(...box1);
+    s.box(mainBoxSize);
+    boxes.forEach(function (b) {
+      return b.show();
+    }); // s.box(...box1);
 
     a += 0.01;
   };
