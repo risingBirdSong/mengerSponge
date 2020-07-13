@@ -101506,27 +101506,44 @@ Object.defineProperty(exports, "__esModule", {
 
 var p5_1 = __importDefault(require("p5"));
 
-var box_1 = __importDefault(require("./box"));
+var box_1 = __importDefault(require("./box")); //angle
+
 
 var a = 0;
 exports.default = new p5_1.default(function (s) {
   var posistion;
-  var boxes = []; // boxes[0]
+  var mainPos;
+  var mainVector;
+  var mainR;
+  var boxes = [];
+  var testBox; // boxes[0]
 
   var mainBoxSize = 300;
 
   s.setup = function setup() {
     var canvas = s.createCanvas(800, 800, "webgl");
-    posistion = canvas.position(window.innerWidth / 4, window.innerHeight / 4);
+    testBox = new box_1.default(s, 0, 0, 0, 200);
+    var length = 800;
+    mainPos = {
+      x: length / 4,
+      y: length / 4,
+      z: length / 4
+    };
+    mainVector = s.createVector(length / 4, length / 4, length / 4);
+    mainR = length / 4;
+    posistion = canvas.position(mainVector.x, mainVector.y);
+    console.log("position", posistion.position());
     generate();
   };
 
   var generate = function generate() {
-    var newX = 0;
-
-    for (var a_1 = 0; a_1 < 3; a_1++) {
-      boxes.push(new box_1.default(s, a_1 * 50, 100, 100, 100));
-      console.log("a", a_1);
+    for (var i = -1; i < 2; i++) {
+      for (var j = -1; j < 2; j++) {
+        for (var k = -1; k < 2; k++) {
+          var newR = mainR / 3;
+          boxes.push(new box_1.default(s, mainVector.x + i * newR, mainVector.y + j * newR, mainVector.z + k * newR, newR));
+        }
+      }
     }
   };
 
@@ -101536,6 +101553,7 @@ exports.default = new p5_1.default(function (s) {
     s.noFill();
     s.rotateX(a);
     s.box(mainBoxSize);
+    testBox.show();
     boxes.forEach(function (b) {
       return b.show();
     }); // s.box(...box1);
@@ -101571,7 +101589,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57886" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50874" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

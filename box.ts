@@ -15,8 +15,7 @@ class Box {
   }
   show() {
     this.sketch.translate(this.pos.x, this.pos.y, this.pos.z);
-    this.sketch.box(this.r);
-
+    this.sketch.box(this.r)
   }
 }
 
