@@ -101472,19 +101472,38 @@ Object.defineProperty(exports, "__esModule", {
 var Box =
 /** @class */
 function () {
-  //@ts-ignore
   function Box(sketch, x, y, z, r_) {
-    //@ts-ignore
-    this.sketch = sketch; //@ts-ignore
-
-    this.pos = sketch.createVector(x, y, z); //@ts-ignore
-
+    this.sketch = sketch;
+    this.pos = sketch.createVector(x, y, z);
     this.r = r_;
   }
 
+  Box.prototype.generate = function () {
+    var boxes = [];
+
+    for (var x = -1; x < 2; x++) {
+      for (var y = -1; y < 2; y++) {
+        for (var z = -1; z < 2; z++) {
+          //cut out the middle box;
+          var newR = this.r / 3;
+          var sum = Math.abs(x) + Math.abs(y) + Math.abs(z);
+
+          if (sum > 1) {
+            var newB = new Box(this.sketch, this.pos.x + x * newR, this.pos.y + y * newR, this.pos.z + z * newR, newR);
+            boxes.push(newB);
+          }
+        }
+      }
+    }
+
+    return boxes;
+  };
+
   Box.prototype.show = function () {
+    this.sketch.push();
     this.sketch.translate(this.pos.x, this.pos.y, this.pos.z);
     this.sketch.box(this.r);
+    this.sketch.pop();
   };
 
   return Box;
@@ -101509,56 +101528,41 @@ var p5_1 = __importDefault(require("p5"));
 var box_1 = __importDefault(require("./box")); //angle
 
 
-var a = 0;
 exports.default = new p5_1.default(function (s) {
-  var posistion;
-  var mainPos;
-  var mainVector;
-  var mainR;
-  var boxes = [];
-  var testBox; // boxes[0]
-
-  var mainBoxSize = 300;
+  var a = 0;
+  var sponge = [];
 
   s.setup = function setup() {
     var canvas = s.createCanvas(800, 800, "webgl");
-    testBox = new box_1.default(s, 0, 0, 0, 200);
-    var length = 800;
-    mainPos = {
-      x: length / 4,
-      y: length / 4,
-      z: length / 4
-    };
-    mainVector = s.createVector(length / 4, length / 4, length / 4);
-    mainR = length / 4;
-    posistion = canvas.position(mainVector.x, mainVector.y);
-    console.log("position", posistion.position());
-    generate();
+    s.normalMaterial();
+    var mainBox = new box_1.default(s, 0, 0, 0, 200);
+    sponge.push(mainBox);
   };
 
-  var generate = function generate() {
-    for (var i = -1; i < 2; i++) {
-      for (var j = -1; j < 2; j++) {
-        for (var k = -1; k < 2; k++) {
-          var newR = mainR / 3;
-          boxes.push(new box_1.default(s, mainVector.x + i * newR, mainVector.y + j * newR, mainVector.z + k * newR, newR));
-        }
-      }
+  s.mouseClicked = function () {
+    var next = [];
+
+    for (var i = 0; i < sponge.length; i++) {
+      var b = sponge[i];
+      var newBoxes = b.generate();
+      next = next.concat(newBoxes);
     }
+
+    sponge = next;
   };
 
   s.draw = function draw() {
     s.background(200);
-    s.stroke(100);
-    s.noFill();
-    s.rotateX(a);
-    s.box(mainBoxSize);
-    testBox.show();
-    boxes.forEach(function (b) {
-      return b.show();
-    }); // s.box(...box1);
+    s.rotateX(a * 0.1);
+    s.rotateY(a * 0.01);
+    s.rotateZ(a * 0.02);
 
-    a += 0.01;
+    for (var _i = 0, sponge_1 = sponge; _i < sponge_1.length; _i++) {
+      var s_1 = sponge_1[_i];
+      s_1.show();
+    }
+
+    a += 0.05;
   };
 });
 },{"p5":"node_modules/p5/lib/p5.js","./box":"box.ts"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -101589,7 +101593,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50874" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52677" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
